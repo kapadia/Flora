@@ -5,7 +5,7 @@ image, and fit the model parameters to the data.
 
 Example: measure a star in a galaxy image:
 
-> **http://akapadia.github.com/Flora**
+> **http://drphilmarshall.github.com/Flora**
 
 Hacked together at dotastronomy4, Heidelberg, July 2012 by
 

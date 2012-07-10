@@ -1,0 +1,5 @@
+  cd FloraHost
+  hem server -p 9296
+  
+  cd FloraApp
+  hem server

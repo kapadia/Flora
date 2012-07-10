@@ -10,8 +10,11 @@ class Examine extends Spine.Controller
   constructor: ->
     super
     
+    console.log Raphael
+    
     window.addEventListener("message", @receiveXHR, false)
     @bind "dataready", @setupUI
+    @bind "imageready", @setupInteraction
     
     @active (params) ->
       @change(params)
@@ -37,40 +40,30 @@ class Examine extends Spine.Controller
     
   receiveXHR: (e) =>
     msg = e.data
-    astroobj = AstroObj.findByAttribute("reference", msg.reference)
-    
     img = new FITS.File(msg.arraybuffer)
-    dataunit = img.getDataUnit()
-    dataunit.getFrameWebGL()
+    @header = img.getHeader()
+    obj = AstroObj.findByAttribute("reference", msg.reference)
     
-    astroobj.save()
-    @trigger("dataready", astroobj)
+    obj.imageset.addImage img
+    img.getDataUnit().getFrameWebGL()
+    obj.save()
+    
+    @trigger "dataready", obj
   
   setupUI: (astroobj) ->
-    console.log 'setupUI'
     @item = astroobj
     @visualize()
   
   visualize: ->
-    console.log 'visualize'
     @el = document.getElementById("fitsviewer")
-    imageset = new FITS.ImageSet()
-    imageset.addImage(@item)
-    @viz = new FITS.Visualize(imageset, @el, 0, 'arcsinh')
-
-  updateUrlState: (values) ->
-    window.location.hash = "#{window.location.hash}/#{values[0]}/#{values[1]}"
+    @item.imageset.seek(0)
+    @viz = new FITS.Visualize(@item.imageset, @el, 0, 'linear')
     
-  metadata: ->
-    header = @item.imageset[0].getHeader()
-    
-    $("#metadata").append("<table>")
-    rowCounter = 0
-    for key, value of header.cards
-      rowClass = if rowCounter % 2 is 0 then "even" else "odd"
-      rowCounter += 1
-      $("#metadata").append("<tr><td class='key #{rowClass}'>#{key}</td><td>#{header[key]}</td></tr>")
-    $("#metadata").append("</table>")
+    @trigger "imageready", @setupInteraction
   
+  setupInteraction: ->
+    @canvas = $("#fitsviewer .fits-viewer canvas")
+    @canvas.click (e) =>
+      console.log e.offsetX, @header["NAXIS2"] - e.offsetY
     
 module.exports = Examine

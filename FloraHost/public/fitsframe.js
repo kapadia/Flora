@@ -24,32 +24,26 @@
     };
 
     DataOnWire.prototype.requestXHR = function(reference) {
-      var filter, url, _i, _len, _ref, _results,
+      var url,
         _this = this;
       console.log('requestXHR called from DataOnWire');
-      _ref = ['u', 'g', 'r', 'i', 'z'];
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        filter = _ref[_i];
-        url = "http://ubret.s3.amazonaws.com/galaxyzoo3/lens/" + reference + "_" + filter + "_sci.fits";
-        _results.push((function(url, reference) {
-          var xhr;
-          xhr = new XMLHttpRequest();
-          xhr.open('GET', url);
-          xhr.responseType = 'arraybuffer';
-          xhr.onload = function(e) {
-            var msg;
-            msg = {
-              origin: url,
-              reference: reference,
-              arraybuffer: e.currentTarget.response
-            };
-            return _this.sendMessage(msg);
+      url = "http://0.0.0.0:9296/data/" + reference + ".fits";
+      return (function(url, reference) {
+        var xhr;
+        xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.responseType = 'arraybuffer';
+        xhr.onload = function(e) {
+          var msg;
+          msg = {
+            origin: url,
+            reference: reference,
+            arraybuffer: e.currentTarget.response
           };
-          return xhr.send();
-        })(url, reference));
-      }
-      return _results;
+          return _this.sendMessage(msg);
+        };
+        return xhr.send();
+      })(url, reference);
     };
 
     DataOnWire.prototype.sendMessage = function(msg) {

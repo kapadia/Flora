@@ -53,13 +53,11 @@ class Examine extends Spine.Controller
   
   visualize: ->
     console.log 'visualize'
-    @el = document.getElementById("mwv")
-    # dataunit = @item.getDataUnit()
-    # dataunit.seek(0)
-    # @viz = new FITS.Visualize(@item.imageset, @el, @index, 'linear')
+    @el = document.getElementById("fitsviewer")
+    imageset = new FITS.ImageSet()
+    imageset.addImage(@item)
+    @viz = new FITS.Visualize(imageset, @el, 0, 'arcsinh')
 
-
-  
   updateUrlState: (values) ->
     window.location.hash = "#{window.location.hash}/#{values[0]}/#{values[1]}"
     

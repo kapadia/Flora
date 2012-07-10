@@ -1,0 +1,5 @@
+<div id="astroobjs">
+<% for astroobj in @: %>
+  <img class="astroobj" data-reference="<%= astroobj.reference %>" src="<%= astroobj.getThumbnail() %>" />
+<% end %>
+</div>

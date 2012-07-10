@@ -1,3 +1,4 @@
 <div id="examine">
+  <canvas id="closeup"></canvas>
   <div id="fitsviewer"></div>
 </div>

@@ -1,6 +1,6 @@
-AstroObj  = require('models/AstroObject')
 FITS    = require('Fits')
-Utils   = require('lib/Utils')
+AstroObj  = require('models/AstroObject')
+SubImage  = require('models/SubImage')
 
 class Examine extends Spine.Controller
   # @validDestination = "http://ubret.s3.amazonaws.com"
@@ -9,8 +9,6 @@ class Examine extends Spine.Controller
   
   constructor: ->
     super
-    
-    console.log Raphael
     
     window.addEventListener("message", @receiveXHR, false)
     @bind "dataready", @setupUI
@@ -42,10 +40,10 @@ class Examine extends Spine.Controller
     msg = e.data
     img = new FITS.File(msg.arraybuffer)
     @header = img.getHeader()
+    @image  = img.getDataUnit()
     obj = AstroObj.findByAttribute("reference", msg.reference)
     
     obj.imageset.addImage img
-    img.getDataUnit().getFrameWebGL()
     obj.save()
     
     @trigger "dataready", obj
@@ -53,6 +51,10 @@ class Examine extends Spine.Controller
   setupUI: (astroobj) ->
     @item = astroobj
     @visualize()
+    closeup = $("#closeup")[0]
+    @closeup = closeup.getContext('2d')
+    imgData = @closeup.createImageData(10, 10)
+    console.log imgData
   
   visualize: ->
     @el = document.getElementById("fitsviewer")
@@ -63,7 +65,19 @@ class Examine extends Spine.Controller
   
   setupInteraction: ->
     @canvas = $("#fitsviewer .fits-viewer canvas")
+    @image.frame = 0
     @canvas.click (e) =>
-      console.log e.offsetX, @header["NAXIS2"] - e.offsetY
+      [i,j] = [e.offsetX, e.offsetY]
+      [x, y] = [i, @header["NAXIS2"] - j]
+      
+      # MAGIC SubImage size 10 pixels
+      params =
+        image: @image
+        x: x
+        y: y
+        size: 10
+      subImage = new SubImage params
+      subImage.save()
+      console.log(x, y, subImage.getPixels())
     
 module.exports = Examine

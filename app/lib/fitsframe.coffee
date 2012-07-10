@@ -15,21 +15,19 @@ class DataOnWire
   requestXHR: (reference) =>
     console.log 'requestXHR called from DataOnWire'
     
-    for filter in ['u', 'g', 'r', 'i', 'z']
-      # url = "http://ubret.s3.amazonaws.com/galaxyzoo3/lens/#{reference}_#{filter}_sci.fits.fz"
-      url = "http://ubret.s3.amazonaws.com/galaxyzoo3/lens/#{reference}_#{filter}_sci.fits"
-      do (url, reference) =>
-        xhr = new XMLHttpRequest()
-        xhr.open('GET', url)
-        xhr.responseType = 'arraybuffer'
-        xhr.onload = (e) =>
-          msg =
-            origin:       url
-            reference:    reference
-            arraybuffer:  e.currentTarget.response
+    url = "http://0.0.0.0:9296/data/#{reference}.fits"
+    do (url, reference) =>
+      xhr = new XMLHttpRequest()
+      xhr.open('GET', url)
+      xhr.responseType = 'arraybuffer'
+      xhr.onload = (e) =>
+        msg =
+          origin:       url
+          reference:    reference
+          arraybuffer:  e.currentTarget.response
 
-          @sendMessage(msg)
-        xhr.send()
+        @sendMessage(msg)
+      xhr.send()
   
   sendMessage: (msg) =>
     console.log 'sendMessage called from DataOnWire'

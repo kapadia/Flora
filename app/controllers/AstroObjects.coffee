@@ -2,6 +2,10 @@ AstroObj  = require('models/AstroObject')
 Utils     = require('lib/Utils')
 
 class AstroObjects extends Spine.Controller
+  elements:
+    'img.astroobj'        : 'images'
+  events:
+    'click img.astroobj'  : 'examine'
   
   constructor: ->
     super

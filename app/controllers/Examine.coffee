@@ -19,16 +19,10 @@ class Examine extends Spine.Controller
     @html require('views/examine')
   
   change: (params) ->
-    gal = AstroObj.findByAttribute("reference", params.objid)
-    return null unless gal?
+    obj = AstroObj.findByAttribute("reference", params.objid)
+    return null unless obj?
     
-    if params['min']? and params['max']?
-      return
-
-    if gal.hasImageSet()
-      @setupUI(gal)
-    else
-      @requestXHR(params.objid)
+    @requestXHR(params.objid)
   
   requestXHR: (reference) ->
     
@@ -43,61 +37,26 @@ class Examine extends Spine.Controller
     
   receiveXHR: (e) =>
     msg = e.data
-    gal = AstroObj.findByAttribute("reference", msg.reference)
+    astroobj = AstroObj.findByAttribute("reference", msg.reference)
     
-    gal.imageset.addImage(new FITS.File(msg.arraybuffer))
-    
+    img = new FITS.File(msg.arraybuffer)
     dataunit = img.getDataUnit()
-    dataunit.getFrame()
-    gal.stats.push(new FITS.ImageStats(dataunit))
-    gal.save()
+    dataunit.getFrameWebGL()
     
-    @trigger("dataready", gal) if gal.imageset.count is 5
+    astroobj.save()
+    @trigger("dataready", astroobj)
   
-  cleanUI: ->
-    @buttons.empty()
-    @slider.empty()
-    @markerPlot.empty()
-    @histogramPlot.empty()
-  
-  setupUI: (galaxy) ->
-    @item = galaxy
-    @cleanUI()
-    
+  setupUI: (astroobj) ->
+    console.log 'setupUI'
+    @item = astroobj
     @visualize()
-    @histogram()
-    @metadata()
-    @sed()
-    
-    @item.imageset.seek(0)
-    @item.imageset.getExtremes()
-    
-    $("#stretch").change( (e) =>
-      @item.imageset.seek(0)
-      @viz = new FITS.Visualize(@item.imageset, @el, @index, e.currentTarget.value)
-    )
-    
-    counter = -1
-    for filter, image of @item.imageset.images
-      id = filter.replace(/[^a-zA-Z0-9]/g, "")
-      html = "<input type='radio' id='#{id}' name='filter' class='filter-toggle' data-filter='#{filter}' data-index='#{counter += 1}'/><label for='#{id}'>#{filter}</label>"
-      @buttons.append(html)
-    
-    $("input[name='filter']").change( (e) =>
-      filter  = e.currentTarget.dataset['filter']
-      @index  = e.currentTarget.dataset['index']
-      @item.imageset.seek(0)
-      @viz = new FITS.Visualize(@item.imageset, @el, @index, $("#stretch").val())
-      @histogram()
-    )
-    
-    @buttons.buttonset()
   
   visualize: ->
+    console.log 'visualize'
     @el = document.getElementById("mwv")
-    @item.imageset.seek(0)
-    @index ?= 0
-    @viz = new FITS.Visualize(@item.imageset, @el, @index, 'linear')
+    # dataunit = @item.getDataUnit()
+    # dataunit.seek(0)
+    # @viz = new FITS.Visualize(@item.imageset, @el, @index, 'linear')
 
 
   

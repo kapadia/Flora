@@ -1,0 +1,5 @@
+<div id="galaxies">
+<% for galaxy in @: %>
+  <img class="galaxy" data-reference="<%= galaxy.reference %>" src="<%= galaxy.getThumbnail() %>" />
+<% end %>
+</div>

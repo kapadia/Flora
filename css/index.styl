@@ -1,0 +1,89 @@
+@import './mixin'
+@import './fonts'
+
+img.galaxy
+  width 200px
+  height 200px
+  
+img.galaxy:hover
+  border 2px solid #B8E205
+  margin -2px
+  cursor pointer
+
+.even
+  background #FAFAFA
+
+.odd
+  background #F7F7F7
+
+
+body
+
+  background #F3F3F3
+  margin 0
+  font-family 'Open Sans', sans-serif;
+  
+  #app
+  
+    > div
+      display none
+    > div.active
+      display block
+    
+    width 1016px
+    margin 0 auto
+    
+    h1
+      font-weight 400
+      font-size 24px
+      border-bottom 1px solid #505050
+      
+    #galaxies
+      
+    #examine
+
+      #ui
+        .buttons
+          margin 0 0 10px 0
+      
+      #mwv
+        float left
+        background-color #646464
+        border-radius 4px
+        width 401px
+        height 401px
+
+      #metadata
+        float right
+        height 401px
+        font-size 12px
+        overflow auto
+        display none
+        
+        .key
+          text-align right
+          padding-right 10px
+      
+      #histogram
+        float right
+        
+        #plots
+          .markers
+            position absolute
+            width 500px
+            height 250px
+            z-index 2
+      
+          .plot
+            position absolute
+            width 500px
+            height 250px
+            z-index 1
+        
+        .slider
+          width 500px
+      
+      #sed
+        width 500px
+        height 250px
+

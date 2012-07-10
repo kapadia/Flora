@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <title>Galaxy Zoo Redux</title>
+  <link rel="stylesheet" href="./spinner.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="/application.css" type="text/css" charset="utf-8">
+  <link rel="stylesheet" href="./jquery-ui-1.8.21.custom.css" type="text/css" charset="utf-8">
+  <script src="/application.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" charset="utf-8">
+    var exports = this;
+    jQuery(function(){
+      var App = require("index");
+      exports.app = new App({el: $("#app")});
+    });
+  </script>
+</head>
+<body>
+  <!-- <iframe id="dataonwire" src="http://ubret.s3.amazonaws.com/galaxyzoo3/fitsframe.html" style="display: none;"></iframe> -->
+  <iframe id="dataonwire" src="http://0.0.0.0:9296/fitsframe.html" style="display: none;"></iframe>
+  <div id="app">
+    <h1>Galaxy Zoo Redux <span id="spinner"></span></h1>
+  </div>
+</body>
+</html>

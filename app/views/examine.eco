@@ -1,0 +1,21 @@
+<div id="examine">
+  <div id="ui">
+    <div class="buttons"></div>
+    <select id="stretch">
+      <option value="linear">Linear</option>
+      <option value="logarithm">Logarithm</option>
+      <option value="sqrt">Square Root</option>
+      <option value="arcsinh">Arcsinh</option>
+      <option value="power">Power</option>
+      <option value="color">g-r-i</option>
+    </select>
+  </div>  
+  <div id="mwv"></div>
+  <div id="histogram">
+    <div class="slider"></div>
+    <div id="plots">
+      <div class="markers"></div>
+      <div class="plot"></div>
+    </div>
+  </div>
+</div>

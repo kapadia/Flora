@@ -1,7 +1,4 @@
 <div id="examine">
-
-  <h6>Click on a point source to measure it.</h6>
-  <br></br>
   <div id="canvases">
     <canvas id="closeup"></canvas>
     <canvas id="gaussian2d"></canvas>
@@ -11,7 +8,7 @@
   <div id="fitsviewer"></div>
 </div>
 <h2>What's going on here?</h2>
-        
+    <section>
         <p>Flora is an attempt to enable quantitative measurements on
            images in a browser. In astronomy, we want to measure the
            position, size and brightness of various objects in our

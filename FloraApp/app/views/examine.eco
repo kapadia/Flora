@@ -1,4 +1,7 @@
 <div id="examine">
+
+  <h6>Click on a point source to measure it.</h6>
+  <br></br>
   <div id="canvases">
     <canvas id="closeup"></canvas>
     <canvas id="gaussian2d"></canvas>
@@ -6,4 +9,40 @@
   </div>
   <table id="catalog"></table>
   <div id="fitsviewer"></div>
+</div>
+<h2>What's going on here?</h2>
+        
+        <p>Flora is an attempt to enable quantitative measurements on
+           images in a browser. In astronomy, we want to measure the
+           position, size and brightness of various objects in our
+           images - which in practice means fitting a model to them. 
+           
+        <p>Flora uses Javascript and <a
+           href="https://en.wikipedia.org/wiki/Canvas_element">canvas</a>
+           to allow the user to point at an object they want to measure,
+           and have a catalog entry of measurements returned. We use the
+           <a href="https://github.com/astrojs">astrojs</a> library to
+           handle FITS images (including calibration information in the
+           header) and the transformations needed to turn pixel positions
+           into "world" coordinates on the sky.</p>
+           
+        <p>The model in this demo is a circularly-symmetric light source
+           with a Gaussian brightness profile: it has 5 parameters (x, y,
+           size, brightness and background sky level), which we optimize
+           using 
+           <a href="https://github.com/dfm/optimize.js">optimize.js</a> by
+           Foreman-Mackey and Hogg. It's a simple least-squares fit.
+
+  </section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+  <footer class="inner">
+    <p class="copyright">Flora hacked together at DotAstronomy4 by <a
+    href="https://github.com/kapadia">Amit Kapadia</a>,  <a
+    href="https://github.com/drphilmarshall">Phil Marshall</a>,  <a
+    href="https://github.com/whyte">Laura Whyte</a> and others.</p> 
+    <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+  </footer>
 </div>

@@ -1,4 +1,8 @@
 <div id="examine">
-  <canvas id="closeup"></canvas>
+  <div id="canvases">
+    <canvas id="closeup"></canvas>
+    <canvas id="gaussian2d"></canvas>
+    <canvas id="difference"></canvas>
+  </div>
   <div id="fitsviewer"></div>
 </div>

@@ -1,26 +1,37 @@
 @import './mixin'
 @import './fonts'
 
-#canvases
-  padding 40px 0 40px 40px
+.rotate
+  transform rotate(-90deg)
 
+#titles
+  float left
+
+#canvases
+  clear both
+  float left
+  padding 40px 0 40px 36px
+  
   #closeup
-    transform: rotate(-90deg)
-    transform: scale(8)
     margin-right 80px
+    transform(scale(8) rotate(-90deg))
 
   #gaussian2d
-    transform: rotate(-90deg)
-    transform: scale(8)
     margin-right 80px
+    transform(scale(8) rotate(-90deg))
 
   #difference
-    transform: rotate(-90deg)
-    transform: scale(8)
     margin-right 80px
+    transform(scale(8) rotate(-90deg))
 
-#canvases
-  float left
+#catalog
+  border 1px solid #505050
+  tr
+    padding-bottom 10px
+    
+  td
+    text-align center
+    padding-right 10px
   
 #fitsviewer
   clear both

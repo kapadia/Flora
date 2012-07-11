@@ -111,14 +111,12 @@ class Examine extends Spine.Controller
       objfunc = (p) ->
         if p[0] < 0 or p[0] > 5
           return (1e10 for i in [1..subImage.pixels.length])
-        console.log p
         chi = blob.getChi(p[0], p[1], p[2], p[3], p[4])
         return optimize.vector.dot(chi, chi)
         
       [dx, dy, re, flux, sky] = optimize.fmin(objfunc, p0)
       modelPatch = blob.getModelPatch(dx, dy, re, flux, sky)
       chi = blob.getChi(dx, dy, re, flux, sky)
-      console.log chi
       
       [min, max] = subImage.getExtremes()
       
@@ -146,18 +144,28 @@ class Examine extends Spine.Controller
         pixelsGaussian[i + 2] = valueGaussian
         pixelsGaussian[i + 3] = 255
         
-        valueDifference = 255 * (chi[index] - min) / (max - min)
+        valueDifference = 255 * (chi[index] + max) / (max + max)
         pixelsDifference[i] = valueDifference
         pixelsDifference[i + 1] = valueDifference
         pixelsDifference[i + 2] = valueDifference
         pixelsDifference[i + 3] = 255
       
-      console.log pixelsDifference
       imageDataCloseup.data     = pixelsCloseup
       imageDataGaussian.data    = pixelsGaussian
       imageDataDifference.data  = pixelsDifference
       @contextCloseup.putImageData(imageDataCloseup, 0, 0)
       @contextGaussian.putImageData(imageDataGaussian, 0, 0)
       @contextDifference.putImageData(imageDataDifference, 0, 0)
+      
+      # Write values to table
+      table = $("#catalog")
+      table.html("<tr>
+        <td>x/pix</td><td>y/pix</td><td>r<sub>eff</sub>/pix</td><td>F/cts</td><td>sky/cts/pix</td>
+        </tr>
+        <tr>
+        <td>#{(x + dx).toFixed(1)}</td><td>#{(y + dy).toFixed(1)}</td><td>#{re.toFixed(1)}</td><td>#{flux.toFixed(1)}</td><td>#{sky.toFixed(1)}</td>
+        </tr>
+      ")
+      console.log table
     
 module.exports = Examine

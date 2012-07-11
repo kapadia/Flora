@@ -4,5 +4,6 @@
     <canvas id="gaussian2d"></canvas>
     <canvas id="difference"></canvas>
   </div>
+  <table id="catalog"></table>
   <div id="fitsviewer"></div>
 </div>

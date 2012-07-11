@@ -24,8 +24,14 @@ Read http://spinejs.com/docs/app
 
 ## Running Locally
 
-> cd FloraHost
-> hem server -p 9296
-  
-> cd FloraApp
-> hem server
+```
+cd FloraHost
+hem server -p 9296
+```
+
+or
+
+```
+cd FloraApp
+hem server
+```

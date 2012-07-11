@@ -1,0 +1,23 @@
+<html>
+<head>
+	<script src="jquery.js"></script>
+	<script>
+	load = function() {
+		var rectcanvas = document.getElementById('rectcanvas');
+        var context = rectcanvas.getContext('2d');
+        		
+		$("#rectcanvas").click( function (e) {
+			context.clearRect(0, 0, rectcanvas.width, rectcanvas.height);
+			context.lineWidth = 2;
+			context.strokeStyle = '#ff0000';
+			context.strokeRect(e.offsetX, e.offsetY, 10, 10);
+			
+		} );
+	};
+	</script>
+</head>
+<body onload="load();">
+	<canvas id="rectcanvas" width="400" height="400" style="border:1px solid black;">
+	</canvas>
+</body>
+</html>

@@ -4,7 +4,8 @@ SubImage  = require('models/SubImage')
 Gaussian2D = require('models/Gaussian2D')
 
 class Examine extends Spine.Controller
-  @validDestination = "http://0.0.0.0:9296"
+  # @validDestination = "http://ubret.s3.amazonaws.com/dotastro4"
+  # @validDestination = "http://0.0.0.0:9294"
   @subImageSize  = 10
   
   constructor: ->
@@ -29,18 +30,20 @@ class Examine extends Spine.Controller
     @requestXHR(params.objid)
   
   requestXHR: (reference) ->
+    url = "data/#{reference}.fits"
+    do (url, reference) =>
+      xhr = new XMLHttpRequest()
+      xhr.open('GET', url)
+      xhr.responseType = 'arraybuffer'
+      xhr.onload = (e) =>
+        msg =
+          origin:       url
+          reference:    reference
+          arraybuffer:  e.currentTarget.response
+        @receiveXHR(msg)
+      xhr.send()
     
-    msg =
-      reference: reference
-    
-    # TODO: Timeout needed to wait for iframe to load.  Find way to 
-    #       determine if iframe loaded and wait before posting message
-    setTimeout ( =>
-      $("#dataonwire")[0].contentWindow.postMessage(msg, Examine.validDestination)
-    ), 1000
-    
-  receiveXHR: (e) =>
-    msg = e.data
+  receiveXHR: (msg) =>
     img = new FITS.File(msg.arraybuffer)
     @header = img.getHeader()
     @image  = img.getDataUnit()
@@ -166,6 +169,5 @@ class Examine extends Spine.Controller
         <td>#{(x + dx).toFixed(1)}</td><td>#{(y + dy).toFixed(1)}</td><td>#{re.toFixed(1)}</td><td>#{flux.toFixed(1)}</td><td>#{sky.toFixed(1)}</td>
         </tr>
       ")
-      console.log table
     
 module.exports = Examine
